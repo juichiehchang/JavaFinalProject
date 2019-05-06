@@ -1,6 +1,6 @@
 import java.sql.*;
 /**
- * Class with static methods to create the tables to store hotel reservation data
+ * Class with static methods to create the tables in the database
  */
 public class CreateTable
 {

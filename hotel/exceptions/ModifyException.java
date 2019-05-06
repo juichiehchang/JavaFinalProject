@@ -1,6 +1,6 @@
 package exceptions;
 /**
- * Exception class used for order modifying errors
+ * Exception class for order-modifying errors
  */
 public class ModifyException extends Exception
 {

@@ -2,7 +2,7 @@ package exceptions;
 
 import java.util.*;
 /**
- * Exception class used for ordering errors
+ * Exception class for ordering errors
  */
 public class OrderException extends Exception
 {

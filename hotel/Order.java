@@ -1,11 +1,15 @@
 import java.sql.*;
 import java.util.*;
-import exceptions.RoomType;
-import exceptions.Pair;
 import exceptions.*;
-
+/**
+ * Class for ordering hotel
+ */
 public class Order extends Query
 {
+    /**
+     * @param hotel_name name of the hotel
+     * @param uid user id
+     */
     private String hotel_name;
     private String uid;
     
@@ -16,7 +20,12 @@ public class Order extends Query
 	this.hotel_name = hotel_name;
 	this.uid = uid;
     }
-    
+
+    /**
+     * Gets a set of the reserved rooms in the specified hotel with the specified room type
+     * @param r_type room type
+     * @return set containing the room indexes of the reserved rooms
+     */
     private Set<Integer> reservedRoomInHotel(String r_type)
     {
 	Connection c = null;
@@ -49,6 +58,10 @@ public class Order extends Query
 	return rooms;
     }
 
+    /**
+     * Gets the id of the order
+     * @return id of the order
+     */
     private int getId(){
 	try{
 	    Class.forName("org.sqlite.JDBC");
@@ -75,7 +88,11 @@ public class Order extends Query
 	}
 	return -1;
     }
-    
+
+    /**
+     * Orders the hotel
+     * @exception OrderException exception for invalid order
+     */
     private void orderRoom() throws OrderException
     {
 	Connection c = null;

@@ -2,9 +2,15 @@ import java.sql.*;
 import java.util.*;
 import java.text.*;
 import exceptions.*;
-
+/**
+ * Class for modifying the check-in and check-out dates of the order
+ */
 public class ModifyDate extends Check
 {
+    /**
+     * @param in_date check-in date
+     * @param out_date chek-out date
+     */
     private String in_date;
     private String out_date;
     
@@ -15,6 +21,10 @@ public class ModifyDate extends Check
 	this.out_date = out_date;
     }
 
+    /**
+     * Modifies the check-in and check-out dates of the order
+     * @exception ModifyException exception for invalid check-in or check-out date
+     */
     private void setDate() throws ModifyException
     {
 	Connection c = null;

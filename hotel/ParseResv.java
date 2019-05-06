@@ -1,5 +1,7 @@
 import java.sql.*;
-
+/**
+ * Class for parsing the reservations in the RESV table
+ */
 public class ParseResv{
     public static void parse(ResultSet rs){
 	try{

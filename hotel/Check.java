@@ -2,7 +2,7 @@ import java.sql.*;
 import java.util.*;
 import exceptions.*;
 /**
- * Class for storing order checking data, with methods to 
+ * Class for checking order
  */
 public class Check
 {
@@ -18,7 +18,13 @@ public class Check
 	this.uid = uid;
 	this.id = id;
     }
-
+    
+    /**
+     * Returns the order with the specified uid and id, returns null if fails
+     * @param c connection to the database
+     * @param stmt statement for executing the query
+     * @return resultSet containing the order
+     */
     protected ResultSet getSet(Connection c, Statement stmt)
     {
 	try {
@@ -34,7 +40,11 @@ public class Check
 	}
 	return null;
     }
-    
+
+    /**
+     * Prints out the order
+     * @exception CheckException exception for invalid order id
+     */
     private void getOrder() throws CheckException
     {
 	Connection c = null;

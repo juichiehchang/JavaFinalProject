@@ -69,6 +69,12 @@ public class Query
 	return count;
     }
 
+    /**
+     * Validates the hotel data with the query
+     * @param rs resultSet containing the hotel data
+     * @param message message containing the room types that match the query
+     * @return a set of room types that fail to match the query
+     */
     protected Set<RoomType> validate(ResultSet rs, StringBuilder message){
 	
 	Set<RoomType> typeSet = new HashSet<RoomType>();
@@ -98,7 +104,10 @@ public class Query
 	}
 	return typeSet;
     }
-    
+
+    /**
+     * Prints out the hotels that match the query
+     */
     private void searchRoom()
     {
 	Connection c = null;

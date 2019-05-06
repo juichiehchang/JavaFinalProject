@@ -2,10 +2,13 @@ import java.sql.*;
 import java.util.*;
 import exceptions.*;
 /**
- * Class for storing room modifying data, with methods to execute update
+ * Class for modifying the room amounts of the order
  */
 public class ModifyRoom extends Check
 {
+    /**
+     * @param roomList list of pairs that stores roomtype and amount ex:(ONE_ADULT, 3)
+     */
     protected List<Pair<String, Integer>> roomList = new ArrayList<Pair<String, Integer>>();
     
     public ModifyRoom(String uid, int id, int one_adult, int two_adults, int four_adults)
@@ -16,6 +19,10 @@ public class ModifyRoom extends Check
 	roomList.add(new Pair<>("FOUR_ADULTS", four_adults));
     }
 
+    /**
+     * Modifies the room amounts of the order
+     * @exception ModifyException exception for invalid room amounts
+     */
     private void setRoom() throws ModifyException
     {
 	Connection c = null;

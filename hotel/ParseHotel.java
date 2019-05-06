@@ -1,5 +1,7 @@
 import java.sql.*;
-
+/**
+ * Class for parsing the hotel data in the HOTEL table
+ */
 public class ParseHotel{
     public static void parse(ResultSet rs){
 	try{
@@ -10,7 +12,7 @@ public class ParseHotel{
 		int r2 = rs.getInt("two_adults");
 		int r4 = rs.getInt("four_adults");
 		int price = rs.getInt("price");
-		System.out.println( "HOTEL_NAME = " + name );
+		System.out.println( "HOTEL_NAME = " + hotel_name );
 		System.out.println( "STAR = " + star );
 		System.out.println( "ONE_ADULT = " + r1 );
 		System.out.println( "TWO_ADULTS = " + r2 );

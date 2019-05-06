@@ -1,7 +1,9 @@
 import java.sql.*;
 import java.util.*;
 import exceptions.*;
-
+/**
+ * Class for cancelling order
+ */
 public class Cancel extends Check
 {
     public Cancel(String uid, int id)
@@ -9,7 +11,13 @@ public class Cancel extends Check
 	super(uid, id);
     }
 
-    protected boolean validate(Connection c, Statement stmt)
+    /**
+     * Checks if the order exists
+     * @param c connection to the database
+     * @param stmt for executing the query
+     * @return true if the order exists, else false
+     */
+    private boolean validate(Connection c, Statement stmt)
     {
 	try{
 	    if(!(super.getSet(c, stmt).isBeforeFirst())){
@@ -23,7 +31,11 @@ public class Cancel extends Check
 	}
 	return false;
     }
-    
+
+    /**
+     * Deletes the order
+     * @exception ModifyException exception for invalid order id
+     */
     private void delOrder() throws ModifyException
     {
 	Connection c = null;

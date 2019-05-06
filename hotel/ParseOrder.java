@@ -1,5 +1,7 @@
 import java.sql.*;
-
+/**
+ * Class for parsing the orders in the ORDERS table
+ */
 public class ParseOrder{
     public static void parse(ResultSet rs){
 	try{

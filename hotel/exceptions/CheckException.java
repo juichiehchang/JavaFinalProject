@@ -1,6 +1,6 @@
 package exceptions;
 /**
- * Exception class used for order checking error
+ * Exception class for order-checking error
  */
 public class CheckException extends Exception
 {
