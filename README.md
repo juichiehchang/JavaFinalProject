@@ -3,7 +3,7 @@
 ## 指定題：飯店訂房系統
 
 ### TABLE 解釋
-
+<pre>
 1. RESV TABLE：用來儲存房間的預訂資料  
 
 columns 為：  
@@ -35,4 +35,5 @@ four_adults    四人房數量
 in_date        入住日期  
 out_date       退房日期  
 uid            訂房者的ID  
-id             訂單編號
+id             訂單編號  
+</pre>
