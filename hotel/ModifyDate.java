@@ -3,7 +3,7 @@ import java.util.*;
 import java.text.*;
 import exceptions.*;
 /**
- * Class for modifying the check-in and check-out dates of the order
+ * Class for modifying the check-in and check-out dates of the specified order
  */
 public class ModifyDate extends Check
 {
@@ -38,12 +38,15 @@ public class ModifyDate extends Check
 	    stmt = c.createStatement();
 
 	    ResultSet rs = getSet(c, stmt);
+	    // order doesn't exist
 	    if(!rs.isBeforeFirst()){
 		throw new ModifyException(ModifyException.ExceptionTYPE.INVALID_ID);
 	    }
-	    
+
+	    // parse date-time format
 	    SimpleDateFormat simple = new java.text.SimpleDateFormat();
 	    simple.applyPattern("yyyy-MM-dd HH:mm:ss");
+	    // tries to extend dates
 	    if(simple.parse(in_date).before(simple.parse(rs.getString("in_date"))) ||
 	       simple.parse(out_date).after(simple.parse(rs.getString("out_date")))){
 		throw new ModifyException(ModifyException.ExceptionTYPE.INVALID_DATE);
@@ -86,4 +89,3 @@ public class ModifyDate extends Check
 	}
     }
 }
-

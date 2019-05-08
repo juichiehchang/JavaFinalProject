@@ -35,15 +35,18 @@ public class ModifyRoom extends Check
 	    
 	    stmt = c.createStatement();
 
+	    // check if order exists
 	    ResultSet rs = getSet(c, stmt);
 	    if(!rs.isBeforeFirst()){
 		throw new ModifyException(ModifyException.ExceptionTYPE.INVALID_ID);
 	    }
 
+	    // check room amount
 	    ArrayList<Pair<String, Integer>> delList = new ArrayList<Pair<String, Integer>>();
 	    for(Pair<String, Integer> roomPair : roomList){
 		String r_type = roomPair.getKey();
 		int amount = roomPair.getValue();
+		// tries to add room
 		if(amount > rs.getInt(r_type)){
 		    rs.close();
 		    stmt.close();
@@ -52,21 +55,22 @@ public class ModifyRoom extends Check
 		}
 		delList.add(new Pair<>(r_type, rs.getInt(r_type) - amount));
 	    }
-
+	    // update order
 	    String modify = "UPDATE ORDERS " +
 		"SET ONE_ADULT = " + roomList.get(0).getValue() +
 		", TWO_ADULTS = " + roomList.get(1).getValue() +
 		", FOUR_ADULTS = " + roomList.get(2).getValue() +
 		" WHERE UID = \'" + uid + "\' AND ID = " + id + ";";
 	    stmt.executeUpdate(modify);
-	    
+
+	    // delete abundant room reservations
 	    for(Pair<String, Integer> roomPair : delList){
 		modify = "DELETE FROM RESV " +
 		    "WHERE UID = \'" + uid + "\' AND ID = " + id +
 		    " AND R_TYPE = \'" + roomPair.getKey() + "\' AND R_INDEX IN (" +
 		    " SELECT R_INDEX FROM RESV WHERE UID = \'" + uid + "\' AND ID = " + id +
-		    " AND R_TYPE = \'" + roomPair.getKey() + "\' ORDER BY \'R_INDEX\' " + 
-		    "LIMIT " + roomPair.getValue() + ");";
+		    " AND R_TYPE = \'" + roomPair.getKey() + "\' ORDER BY R_INDEX DESC" + 
+		    " LIMIT " + roomPair.getValue() + ");";
 		//System.out.println(modify);
 		stmt.executeUpdate(modify);
 	    }
@@ -100,4 +104,3 @@ public class ModifyRoom extends Check
 	}
     }
 }
-

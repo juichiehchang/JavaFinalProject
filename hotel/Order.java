@@ -7,17 +7,17 @@ import exceptions.*;
 public class Order extends Query
 {
     /**
-     * @param hotel_name name of the hotel
+     * @param hotel_id hotel id
      * @param uid user id
      */
-    private String hotel_name;
+    private int hotel_id;
     private String uid;
     
-    public Order(int one_adult, int two_adults, int four_adults, String in_date, String out_date, String hotel_name, String uid)
+    public Order(int one_adult, int two_adults, int four_adults, String in_date, String out_date, int hotel_id, String uid)
     {
 	super(one_adult, two_adults, four_adults, in_date, out_date);
 
-	this.hotel_name = hotel_name;
+	this.hotel_id = hotel_id;
 	this.uid = uid;
     }
 
@@ -39,7 +39,7 @@ public class Order extends Query
 	    stmt = c.createStatement();
 	    String query = "SELECT DISTINCT R_INDEX FROM RESV " +
 		"WHERE R_TYPE = \'" + r_type + "\' " +
-		"AND HOTEL_NAME = \'" + hotel_name + "\' " +
+		"AND HOTEL_ID = \'" + hotel_id + "\' " +
 		"AND (IN_DATE BETWEEN \'" + in_date + "\' AND \'" + out_date + "\' " +
 		"OR OUT_DATE BETWEEN \'" + in_date + "\' AND \'" + out_date + "\') " +
 		"ORDER BY R_INDEX";
@@ -104,20 +104,22 @@ public class Order extends Query
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();
+	    // get hotel info
 	    String query = "SELECT * FROM HOTEL " +
-		"WHERE HOTEL_NAME = \'" + hotel_name + "\'";
-
+		"WHERE HOTEL_ID = \'" + hotel_id + "\'";
 	    //System.out.println(query);
 	    ResultSet rs = stmt.executeQuery(query);
+	    // hotel doesn't exist
 	    if(!rs.isBeforeFirst()){
 		System.out.println("No such hotel");
 		System.exit(0);
 	    }
 	    
 	    StringBuilder message = new StringBuilder();
+	    // check if there is enough room
 	    Set<RoomType> typeSet = validate(rs, message);
 	    if(typeSet.size() == 0){
-		System.out.println(message);
+		//System.out.println(message);
 		ArrayList<String> insertList = new ArrayList<String>();
 		int id = getId();
 		for(Pair<RoomType, Integer> roomPair : roomList){
@@ -132,9 +134,10 @@ public class Order extends Query
 			if(amount <= 0)
 			    break;
 			amount--;
+			// insert reservations
 			insertList.add("INSERT INTO RESV " +
-			    "(R_TYPE, HOTEL_NAME, R_INDEX, IN_DATE, OUT_DATE, UID, ID) " + 
-			    "VALUES (\'" + r_type + "\', \'" + hotel_name + "\', " +
+			    "(R_TYPE, HOTEL_ID, R_INDEX, IN_DATE, OUT_DATE, UID, ID) " + 
+			    "VALUES (\'" + r_type + "\', \'" + hotel_id + "\', " +
 				       r_index + ", \'" + in_date + "\', \'" + out_date +
 				       "\', \'" + uid + "\', " + id + ");");
 		    }
@@ -151,19 +154,20 @@ public class Order extends Query
 
 		c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
 		c.setAutoCommit(false);
-		System.out.println("YEAH BOI");
+
 		stmt = c.createStatement();
 		for(String insert : insertList){
-		    System.out.println(insert);
+		    //System.out.println(insert);
 		    stmt.executeUpdate(insert);
 		}
+		// insert order
 		String order = "INSERT INTO ORDERS " +
-		    "(HOTEL_NAME, ONE_ADULT, TWO_ADULTS, FOUR_ADULTS, IN_DATE, OUT_DATE, UID, ID) " +
-		    "VALUES (\'" + hotel_name + "\', " + roomList.get(0).getValue() + ", " +
+		    "(HOTEL_ID, ONE_ADULT, TWO_ADULTS, FOUR_ADULTS, IN_DATE, OUT_DATE, UID, ID) " +
+		    "VALUES (\'" + hotel_id + "\', " + roomList.get(0).getValue() + ", " +
 		    roomList.get(1).getValue() + ", " + 
 		    roomList.get(2).getValue() + ", \'" + in_date + "\', \'" + out_date +
 		    "\', \'" + uid + "\', " + id + ");";
-		System.out.println(order);
+		//System.out.println(order);
 		stmt.executeUpdate(order);
 		stmt.close();
 		c.commit();
@@ -180,7 +184,7 @@ public class Order extends Query
     }
     
     public static void main( String args[] ){
-	Order order = new Order(10, 2, 3, "2019-01-01 10:20:05.123", "2019-01-10 10:20:05.123", "Johnny Walker", "asd");
+	Order order = new Order(10, 2, 3, "2019-01-01 10:20:05.123", "2019-01-10 10:20:05.123", 1, "asd");
 	String errMessage = null;
 	try{
 	    order.orderRoom();

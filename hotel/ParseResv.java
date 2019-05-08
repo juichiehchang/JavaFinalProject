@@ -7,14 +7,14 @@ public class ParseResv{
 	try{
 	    while ( rs.next() ) {
 		String r_type = rs.getString("r_type");
-		String hotel_name = rs.getString("hotel_name");
+		int hotel_id = rs.getInt("hotel_id");
 		int r_index = rs.getInt("r_index");
 		String in_date = rs.getString("in_date");
 		String out_date = rs.getString("out_date");
 		String uid = rs.getString("uid");
 		int id = rs.getInt("id");
 		System.out.println( "R_TYPE = " + r_type );
-		System.out.println( "HOTEL_NAME = " + hotel_name );
+		System.out.println( "HOTEL_ID = " + hotel_id );
 		System.out.println( "R_INDEX = " + r_index );
 		System.out.println( "IN_DATE = " + in_date );
 		System.out.println( "OUT_DATE = " + out_date );

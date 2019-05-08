@@ -6,7 +6,7 @@ public class ParseOrder{
     public static void parse(ResultSet rs){
 	try{
 	    while ( rs.next() ) {
-		String hotel_name = rs.getString("hotel_name");
+		int hotel_id = rs.getInt("hotel_id");
 		int one_adult = rs.getInt("one_adult");
 		int two_adults = rs.getInt("two_adults");
 		int four_adults = rs.getInt("four_adults");
@@ -14,7 +14,7 @@ public class ParseOrder{
 		String out_date = rs.getString("out_date");
 		String uid = rs.getString("uid");
 		int id = rs.getInt("id");
-		System.out.println( "HOTEL_NAME: " + hotel_name );
+		System.out.println( "HOTEL_ID: " + hotel_id );
 		System.out.println( "ONE_ADULT: " + one_adult );
 		System.out.println( "TWO_ADULTS: " + two_adults );
 		System.out.println( "FOUR_ADULTS: " + four_adults );

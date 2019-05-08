@@ -20,7 +20,7 @@ public class CreateTable
 	    
 	    String sql = "CREATE TABLE IF NOT EXISTS RESV " +
 		"(R_TYPE         INT     NOT NULL, " +
-		" HOTEL_NAME     TEXT    NOT NULL, " +
+		" HOTEL_ID       INT     NOT NULL, " +
 		" R_INDEX        INT     NOT NULL, " + 
 		" IN_DATE        TEXT    NOT NULL, " +
 		" OUT_DATE       TEXT    NOT NULL, " +
@@ -51,13 +51,15 @@ public class CreateTable
 	    stmt = c.createStatement();
 	    
 	    String sql = "CREATE TABLE IF NOT EXISTS HOTEL " +
-		"(HOTEL_NAME     TEXT    NOT NULL, " +
+		"(HOTEL_ID       INT     NOT NULL, " +
 		" STAR           INT     NOT NULL, " + 
 		" ONE_ADULT      INT     NOT NULL, " +
 		" TWO_ADULTS     INT     NOT NULL, " +
 		" FOUR_ADULTS    INT     NOT NULL, " +  
-		" PRICE          INT     NOT NULL, " + 
-		" PRIMARY KEY (HOTEL_NAME))";
+		" ONE_PRICE      INT     NOT NULL, " +
+		" TWO_PRICE      INT     NOT NULL, " +
+		" FOUR_PRICE     INT     NOT NULL, " + 
+		" PRIMARY KEY (HOTEL_ID))";
 		
 	    stmt.executeUpdate(sql);
 	    stmt.close();
@@ -83,7 +85,7 @@ public class CreateTable
 	    stmt = c.createStatement();
 	    
 	    String sql = "CREATE TABLE IF NOT EXISTS ORDERS " +
-		"(HOTEL_NAME     TEXT    NOT NULL, " +
+		"(HOTEL_ID       INT     NOT NULL, " +
 		" ONE_ADULT      INT     NOT NULL, " +
 		" TWO_ADULTS     INT     NOT NULL, " +
 		" FOUR_ADULTS    INT     NOT NULL, " +  

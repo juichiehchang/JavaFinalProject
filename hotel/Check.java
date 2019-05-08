@@ -58,9 +58,11 @@ public class Check
 	    stmt = c.createStatement();
 	    
 	    ResultSet rs = getSet(c, stmt);
+	    // order doesn't exist
 	    if(rs == null || !rs.isBeforeFirst()){
 		throw new CheckException();
 	    }
+	    // print out the order
 	    ParseOrder.parse(rs);
 	    rs.close();
 	    stmt.close();

@@ -36,11 +36,11 @@ public class Query
     /**
      * Methods that returns the amount of reserved rooms with the given room_type in the given hotel
      * returns -1 when fails
-     * @param hotel_name target hotel
+     * @param hotel_id target hotel
      * @param r_type room type
      * @return the amount the reserved rooms
      */
-    private int reservedRoomInHotel(String hotel_name, String r_type)
+    private int reservedRoomInHotel(int hotel_id, String r_type)
     {
 	Connection c = null;
 	Statement stmt = null;
@@ -51,9 +51,10 @@ public class Query
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();
+	    // get number of rooms that are occuiped during in-date and out-date
 	    String query = "SELECT COUNT(DISTINCT R_INDEX) FROM RESV " +
 		"WHERE R_TYPE = \'" + r_type + "\' " +
-		"AND HOTEL_NAME = \'" + hotel_name + "\' " +
+		"AND HOTEL_ID = \'" + hotel_id + "\' " +
 		"AND (IN_DATE BETWEEN \'" + in_date + "\' AND \'" + out_date + "\' " +
 		"OR OUT_DATE BETWEEN \'" + in_date + "\' AND \'" + out_date + "\')";
 	    //System.out.println(query);
@@ -80,25 +81,29 @@ public class Query
 	Set<RoomType> typeSet = new HashSet<RoomType>();
 	
 	try{
-	    String hotel_name = rs.getString("hotel_name");
-	    message.append("Hotel name: " + hotel_name + "\n"
+	    int hotel_id = rs.getInt("hotel_id");
+	    message.append("Hotel_id: " + hotel_id + "\n"
 			   + "Star: " + rs.getInt("star") + "\n");
-	    
+	    int price = 0;
 	    for(Pair<RoomType, Integer> roomPair : roomList){
 		String r_type = roomPair.getKey().name();
+		// get price column ex: "ONE_ADULT" -> "ONE_PRICE"
+		String r_ptype = r_type.split("_")[0] + "_PRICE";
 		int amount = roomPair.getValue();
 		int total_room = rs.getInt(r_type);
 		//System.out.println("total_room = " + total_room);
-		int reserved_room = reservedRoomInHotel(hotel_name, r_type);
+		int reserved_room = reservedRoomInHotel(hotel_id, r_type);
 		//System.out.println("reserved_room = " + reserved_room);
 		int empty_room = total_room - reserved_room;
 		if(reserved_room >= 0 && empty_room >= amount){
 		    message.append(r_type + ": " + amount + "\n");
+		    price += rs.getInt(r_ptype) * amount;
 		}
 		else{
 		    typeSet.add(roomPair.getKey());
 		}
 	    }
+	    message.append("Total price: " + price + "\n");
 	}catch(Exception e){
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	}
@@ -119,8 +124,12 @@ public class Query
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();
+	    // get hotel info, ordered by total price
 	    String query = "SELECT * FROM HOTEL " +
-		"ORDER BY PRICE";
+		"ORDER BY ( " +
+		"ONE_PRICE * " + roomList.get(0).getValue() +
+		" + TWO_PRICE * " + roomList.get(1).getValue() + 
+		" + FOUR_PRICE * " + roomList.get(2).getValue() + ");";
 
 	    //System.out.println(query);
 	    ResultSet rs = stmt.executeQuery(query);

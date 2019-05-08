@@ -20,6 +20,7 @@ public class Cancel extends Check
     private boolean validate(Connection c, Statement stmt)
     {
 	try{
+	    // order doesn't exist
 	    if(!(super.getSet(c, stmt).isBeforeFirst())){
 		return false;
 	    }
@@ -47,27 +48,23 @@ public class Cancel extends Check
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();
-
+	    
+	    // order doesn't exist
 	    if(!validate(c, stmt)){
 		throw new ModifyException(ModifyException.ExceptionTYPE.INVALID_ID);
 	    }
-		
-	    String query = "SELECT * FROM ORDERS " +
-		"WHERE UID = \'" + uid + "\' " + "AND ID = " + id + ";";
-	    //System.out.println(query);
-	    ResultSet rs = stmt.executeQuery(query);
-	    if(!rs.isBeforeFirst()){
-		System.out.println("No such record");
-		System.exit(0);
-	    }
-	    query = "DELETE FROM ORDERS " +
+	    
+	    // delete order
+	    String query = "DELETE FROM ORDERS " +
 		"WHERE UID = \'" + uid + "\' " + "AND ID = " + id + ";";
 	    stmt.executeUpdate(query);
+
+	    // delete reservations
 	    query = "DELETE FROM RESV " +
 		"WHERE UID = \'" + uid + "\' " + "AND ID = " + id + ";";
 	    stmt.executeUpdate(query);
+	    
 	    c.commit();
-	    rs.close();
 	    stmt.close();
 	    c.close();
 	    System.out.println("退訂成功，已取消您的訂房紀錄");
@@ -91,4 +88,3 @@ public class Cancel extends Check
 	}
     }
 }
-

@@ -6,18 +6,22 @@ public class ParseHotel{
     public static void parse(ResultSet rs){
 	try{
 	    while ( rs.next() ) {
-		String hotel_name = rs.getString("hotel_name");
+		int hotel_id = rs.getInt("hotel_id");
 		int star  = rs.getInt("star");
 		int r1 = rs.getInt("one_adult");
 		int r2 = rs.getInt("two_adults");
 		int r4 = rs.getInt("four_adults");
-		int price = rs.getInt("price");
-		System.out.println( "HOTEL_NAME = " + hotel_name );
+		int p1 = rs.getInt("one_price");
+		int p2 = rs.getInt("two_price");
+		int p4 = rs.getInt("four_price");
+		System.out.println( "HOTEL_ID = " + hotel_id );
 		System.out.println( "STAR = " + star );
 		System.out.println( "ONE_ADULT = " + r1 );
 		System.out.println( "TWO_ADULTS = " + r2 );
 		System.out.println( "FOUR_ADULTS = " + r4 );
-		System.out.println( "PRICE = " + price );
+		System.out.println( "ONE_PRICE = " + p1 );
+		System.out.println( "TWO_PRICE = " + p2 );
+		System.out.println( "FOUR_PRICE = " + p4 );
 		System.out.println();
 	    }
 	}
@@ -36,7 +40,7 @@ public class ParseHotel{
             c.setAutoCommit(false);
 
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM HOTEL ORDER BY PRICE;");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM HOTEL;");
             ParseHotel.parse(rs);
             rs.close();
             stmt.close();
