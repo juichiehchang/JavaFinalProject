@@ -1,3 +1,5 @@
+package hotel.parse;
+
 import java.sql.*;
 /**
  * Class for parsing the hotel data in the HOTEL table
@@ -36,7 +38,7 @@ public class ParseHotel{
 	
 	try{
 	    Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+            c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
             c.setAutoCommit(false);
 
             stmt = c.createStatement();

@@ -1,4 +1,4 @@
-package exceptions;
+package hotel.exceptions;
 /**
  * Self-defined class for storing pair data
  */

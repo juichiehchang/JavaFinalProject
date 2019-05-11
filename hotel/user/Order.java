@@ -1,6 +1,8 @@
+package hotel.user;
+
 import java.sql.*;
 import java.util.*;
-import exceptions.*;
+import hotel.exceptions.*;
 /**
  * Class for ordering hotel
  */
@@ -33,7 +35,7 @@ public class Order extends Query
 	Set<Integer> rooms = new HashSet<Integer>();
 	try {
 	    Class.forName("org.sqlite.JDBC");
-	    c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();
@@ -65,7 +67,7 @@ public class Order extends Query
     private int getId(){
 	try{
 	    Class.forName("org.sqlite.JDBC");
-	    Connection c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    Connection c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
 	    Statement stmt = c.createStatement();
@@ -100,7 +102,7 @@ public class Order extends Query
 
 	try {
 	    Class.forName("org.sqlite.JDBC");
-	    c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();
@@ -117,7 +119,8 @@ public class Order extends Query
 	    
 	    StringBuilder message = new StringBuilder();
 	    // check if there is enough room
-	    Set<RoomType> typeSet = validate(rs, message);
+	    Set<RoomType> typeSet = new HashSet<RoomType>();
+	    int price = validate(rs, message, typeSet);
 	    if(typeSet.size() == 0){
 		//System.out.println(message);
 		ArrayList<String> insertList = new ArrayList<String>();
@@ -147,12 +150,13 @@ public class Order extends Query
 		System.out.print(message);
 		System.out.println("IN_DATE: " + in_date);
 		System.out.println("OUT_DATE: " + out_date);
+		System.out.println("total nights: " + date_diff);
 		
 		rs.close();
 		stmt.close();
 		c.close();
 
-		c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+		c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 		c.setAutoCommit(false);
 
 		stmt = c.createStatement();
@@ -162,11 +166,13 @@ public class Order extends Query
 		}
 		// insert order
 		String order = "INSERT INTO ORDERS " +
-		    "(HOTEL_ID, ONE_ADULT, TWO_ADULTS, FOUR_ADULTS, IN_DATE, OUT_DATE, UID, ID) " +
-		    "VALUES (\'" + hotel_id + "\', " + roomList.get(0).getValue() + ", " +
+		    "(HOTEL_ID, ONE_ADULT, TWO_ADULTS, FOUR_ADULTS, " +
+		    "IN_DATE, OUT_DATE, UID, ID, TOTAL_PRICE)"+
+		    " VALUES (\'" + hotel_id + "\', " +
+		    roomList.get(0).getValue() + ", " +
 		    roomList.get(1).getValue() + ", " + 
 		    roomList.get(2).getValue() + ", \'" + in_date + "\', \'" + out_date +
-		    "\', \'" + uid + "\', " + id + ");";
+		    "\', \'" + uid + "\', " + id + ", " + price + ");";
 		//System.out.println(order);
 		stmt.executeUpdate(order);
 		stmt.close();
@@ -184,7 +190,7 @@ public class Order extends Query
     }
     
     public static void main( String args[] ){
-	Order order = new Order(10, 2, 3, "2019-01-01 10:20:05.123", "2019-01-10 10:20:05.123", 1, "asd");
+	Order order = new Order(1, 2, 3, "2019-01-01", "2019-01-10", 100, "asd");
 	String errMessage = null;
 	try{
 	    order.orderRoom();

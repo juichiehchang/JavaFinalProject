@@ -23,7 +23,9 @@ star           星級
 one_adult      一人房數量  
 two_adults     二人房數量  
 four_adults    四人房數量  
-price          價格  
+one_price      一人房價格  
+two_price      二人房價格  
+four_price     四人房價格  
 
 3. ORDERS TABLE：用來儲存訂單資料
 
@@ -35,5 +37,6 @@ four_adults    四人房數量
 in_date        入住日期  
 out_date       退房日期  
 uid            訂房者的ID  
-id             訂單編號  
+id             訂單編號
+total_price    總價格  
 </pre>

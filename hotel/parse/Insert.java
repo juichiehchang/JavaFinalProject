@@ -1,3 +1,5 @@
+package hotel.parse;
+
 import java.sql.*;
 /**
  * Class with static method to insert hotel data into HOTEL table
@@ -22,7 +24,7 @@ public class Insert
 	
 	try{
 	    Class.forName("org.sqlite.JDBC");
-	    c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();

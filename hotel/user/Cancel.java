@@ -1,6 +1,8 @@
+package hotel.user;
+
 import java.sql.*;
 import java.util.*;
-import exceptions.*;
+import hotel.exceptions.*;
 /**
  * Class for cancelling order
  */
@@ -44,7 +46,7 @@ public class Cancel extends Check
 
 	try {
 	    Class.forName("org.sqlite.JDBC");
-	    c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();

@@ -1,4 +1,4 @@
-package exceptions;
+package hotel.exceptions;
 /**
  * Exception class for order-checking error
  */

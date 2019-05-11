@@ -1,6 +1,8 @@
+package hotel.user;
+
 import java.sql.*;
 import java.util.*;
-import exceptions.*;
+import hotel.exceptions.*;
 /**
  * Class for storing query data, with methods to execute query
  */
@@ -10,12 +12,13 @@ public class Query
      * @param roomList list of pairs that stores roomtype and amount ex:(ONE_ADULT, 3)
      * @param in_date string that stores the check-in date
      * @param out_date string that stores the check-out date
+     * @param date_diff date difference of in_date and out_date
      */
     protected List<Pair<RoomType, Integer>> roomList = new ArrayList<Pair<RoomType, Integer>>();
 
     protected String in_date;
     protected String out_date;
-
+    protected int date_diff;
     /**
      * Contructor for initializing Query
      * @param one_adult amount of single
@@ -23,6 +26,7 @@ public class Query
      * @param four_adults amount of quad
      * @param in_date check-in date
      * @param out_date check-out date
+     * @param date_diff difference between two dates
      */
     public Query(int one_adult, int two_adults, int four_adults, String in_date, String out_date)
     {
@@ -32,6 +36,7 @@ public class Query
 	
 	this.in_date = in_date;
 	this.out_date = out_date;
+	this.date_diff = Date_diff.getDiff(in_date, out_date);
     }
     /**
      * Methods that returns the amount of reserved rooms with the given room_type in the given hotel
@@ -47,7 +52,7 @@ public class Query
 	int count = -1;
 	try {
 	    Class.forName("org.sqlite.JDBC");
-	    c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();
@@ -74,17 +79,15 @@ public class Query
      * Validates the hotel data with the query
      * @param rs resultSet containing the hotel data
      * @param message message containing the room types that match the query
-     * @return a set of room types that fail to match the query
+     * @param typeSet a set of room types that fail to match the query
+     * @return total price of the order
      */
-    protected Set<RoomType> validate(ResultSet rs, StringBuilder message){
-	
-	Set<RoomType> typeSet = new HashSet<RoomType>();
-	
+    protected int validate(ResultSet rs, StringBuilder message, Set<RoomType> typeSet){
+	int price = 0;
 	try{
 	    int hotel_id = rs.getInt("hotel_id");
 	    message.append("Hotel_id: " + hotel_id + "\n"
 			   + "Star: " + rs.getInt("star") + "\n");
-	    int price = 0;
 	    for(Pair<RoomType, Integer> roomPair : roomList){
 		String r_type = roomPair.getKey().name();
 		// get price column ex: "ONE_ADULT" -> "ONE_PRICE"
@@ -103,11 +106,12 @@ public class Query
 		    typeSet.add(roomPair.getKey());
 		}
 	    }
+	    price *= date_diff;
 	    message.append("Total price: " + price + "\n");
 	}catch(Exception e){
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	}
-	return typeSet;
+	return price;
     }
 
     /**
@@ -120,7 +124,7 @@ public class Query
 
 	try {
 	    Class.forName("org.sqlite.JDBC");
-	    c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();
@@ -135,7 +139,9 @@ public class Query
 	    ResultSet rs = stmt.executeQuery(query);
 	    while(rs.next()){
 		StringBuilder message = new StringBuilder();
-		if(validate(rs, message).size() == 0){
+		Set<RoomType> typeSet = new HashSet<RoomType>();
+		int price = validate(rs, message, typeSet);
+		if(typeSet.size() == 0){
 		    System.out.println(message);
 		}
 	    }
@@ -149,7 +155,7 @@ public class Query
     }
     
     public static void main( String args[] ){
-	Query query = new Query(10, 2, 3, "2019-01-01 10:20:05.123", "2019-01-10 10:20:05.123");
+	Query query = new Query(10, 2, 3, "2019-01-01", "2019-01-10");
 	query.searchRoom();
     }
 }

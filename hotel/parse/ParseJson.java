@@ -1,3 +1,5 @@
+package hotel.parse;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,7 +20,7 @@ public class ParseJson
         //JSON parser object to parse read file
         JSONParser jsonParser = new JSONParser();
          
-        try (FileReader reader = new FileReader("hotelList.json"))
+        try (FileReader reader = new FileReader("hotel/data/hotelList.json"))
         {
             //Read JSON file
             Object obj = jsonParser.parse(reader);

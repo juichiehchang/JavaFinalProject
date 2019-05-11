@@ -1,3 +1,5 @@
+package hotel.create;
+
 import java.sql.*;
 /**
  * Class with static methods to create the tables in the database
@@ -14,7 +16,7 @@ public class CreateTable
 	
 	try{
 	    Class.forName("org.sqlite.JDBC");
-	    c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 
 	    stmt = c.createStatement();
 	    
@@ -46,7 +48,7 @@ public class CreateTable
 	
 	try{
 	    Class.forName("org.sqlite.JDBC");
-	    c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 
 	    stmt = c.createStatement();
 	    
@@ -80,7 +82,7 @@ public class CreateTable
 	
 	try{
 	    Class.forName("org.sqlite.JDBC");
-	    c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    
 	    stmt = c.createStatement();
 	    
@@ -92,7 +94,8 @@ public class CreateTable
 		" IN_DATE        TEXT    NOT NULL, " +
 		" OUT_DATE       TEXT    NOT NULL, " +
 		" UID            TEXT    NOT NULL, " +
-		" ID             INT     NOT NULL)";
+		" ID             INT     NOT NULL, " +
+		" TOTAL_PRICE    INT     NOT NULL)";
 	    
 	    stmt.executeUpdate(sql);
 	    stmt.close();

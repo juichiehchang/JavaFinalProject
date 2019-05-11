@@ -1,7 +1,9 @@
+package hotel.user;
+
 import java.sql.*;
 import java.util.*;
 import java.text.*;
-import exceptions.*;
+import hotel.exceptions.*;
 /**
  * Class for modifying the check-in and check-out dates of the specified order
  */
@@ -32,7 +34,7 @@ public class ModifyDate extends Check
 
 	try {
 	    Class.forName("org.sqlite.JDBC");
-	    c = DriverManager.getConnection("jdbc:sqlite:hotelreservation.db");
+	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();
@@ -45,15 +47,26 @@ public class ModifyDate extends Check
 
 	    // parse date-time format
 	    SimpleDateFormat simple = new java.text.SimpleDateFormat();
-	    simple.applyPattern("yyyy-MM-dd HH:mm:ss");
+	    simple.applyPattern("yyyy-MM-dd");
+	    
+	    // previous in_dat and out_date
+	    String pre_in = rs.getString("in_date");
+	    String pre_out = rs.getString("out_date");
+	    
 	    // tries to extend dates
-	    if(simple.parse(in_date).before(simple.parse(rs.getString("in_date"))) ||
-	       simple.parse(out_date).after(simple.parse(rs.getString("out_date")))){
+	    if(simple.parse(in_date).after(simple.parse(out_date)) ||
+	       simple.parse(in_date).before(simple.parse(pre_in)) ||
+	       simple.parse(out_date).after(simple.parse(pre_out))){
 		throw new ModifyException(ModifyException.ExceptionTYPE.INVALID_DATE);
 	    }
-
+	    
+	    // get new total price
+	    int total_price = rs.getInt("total_price") *
+		Date_diff.getDiff(in_date, out_date) / Date_diff.getDiff(pre_in, pre_out);
+	    
 	    String modify = "UPDATE ORDERS " +
-		"SET IN_DATE = \'" + in_date + "\', " + "OUT_DATE = \'" + out_date + "\' " +
+		"SET IN_DATE = \'" + in_date + "\', " + "OUT_DATE = \'" + out_date + "\' , " +
+		"TOTAL_PRICE = " + total_price + " " + 
 		"WHERE UID = \'" + uid + "\' AND ID = " + id + ";";
 	    //System.out.println(modify);
 	    stmt.executeUpdate(modify);
@@ -76,7 +89,7 @@ public class ModifyDate extends Check
     }
 
     public static void main( String args[] ){
-	ModifyDate modify = new ModifyDate("asd", 1, "2019-01-03 10:20:05.123", "2019-01-08 10:20:05.123");
+	ModifyDate modify = new ModifyDate("asd", 1, "2019-01-03", "2019-01-08");
 	String errMessage = null;
 	try{
 	    modify.setDate();
