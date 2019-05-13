@@ -95,13 +95,13 @@ public class Order extends Query
      * Orders the hotel
      * @exception OrderException exception for invalid order
      */
-    private void orderRoom() throws OrderException
+    private OrderResult orderRoom() throws OrderException
     {
 	Connection c = null;
 	Statement stmt = null;
 
 	try {
-	    Class.forName("org.sqlite.JDBC");
+	    //Class.forName("org.sqlite.JDBC");
 	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
@@ -145,12 +145,15 @@ public class Order extends Query
 				       "\', \'" + uid + "\', " + id + ");");
 		    }
 		}
+		/*
 		System.out.println("ID: " + id);
 		System.out.println("UID: " + uid);
 		System.out.print(message);
 		System.out.println("IN_DATE: " + in_date);
 		System.out.println("OUT_DATE: " + out_date);
 		System.out.println("total nights: " + date_diff);
+		*/
+
 		
 		rs.close();
 		stmt.close();
@@ -178,22 +181,37 @@ public class Order extends Query
 		stmt.close();
 		c.commit();
 		c.close();
+		OrderResult result = new OrderResult(hotel_id, roomList.get(0).getValue(),
+						     roomList.get(1).getValue(),
+						     roomList.get(2).getValue(),
+						     in_date, out_date, uid, id, date_diff, price);
+		return result;
 	    }
 	    else{
 		throw new OrderException(typeSet);
 	    }
 	}
-	catch ( Exception e ) {
+	catch ( SQLException e ) {
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
 	}
+	return null;
     }
     
     public static void main( String args[] ){
 	Order order = new Order(1, 2, 3, "2019-01-01", "2019-01-10", 100, "asd");
 	String errMessage = null;
 	try{
-	    order.orderRoom();
+	    OrderResult r = order.orderRoom();
+	    System.out.println("UID: " + r.uid);
+	    System.out.println("ID: " + r.id);
+	    System.out.println("ONE_ADULT: " + r.one_adult);
+	    System.out.println("TWO_ADULTS: " + r.two_adults);
+	    System.out.println("FOUR_ADULTS: " + r.four_adults);
+	    System.out.println("IN_DATE: " + r.in_date);
+	    System.out.println("OUT_DATE: " + r.out_date);
+	    System.out.println("TOTAL_NIGHTS: " + r.total_nights);
+	    System.out.println("TOTAL_PRICE: " + r.total_price);
 	}
 	catch(Exception e){
 	    errMessage = e.getMessage();

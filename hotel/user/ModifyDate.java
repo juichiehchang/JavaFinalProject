@@ -27,13 +27,13 @@ public class ModifyDate extends Check
      * Modifies the check-in and check-out dates of the order
      * @exception ModifyException exception for invalid check-in or check-out date
      */
-    private void setDate() throws ModifyException
+    private ModifyDateResult setDate() throws ModifyException
     {
 	Connection c = null;
 	Statement stmt = null;
 
 	try {
-	    Class.forName("org.sqlite.JDBC");
+	    //Class.forName("org.sqlite.JDBC");
 	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
@@ -81,18 +81,26 @@ public class ModifyDate extends Check
 	    rs.close();
 	    stmt.close();
 	    c.close();
-	    System.out.println("修改成功，已將您的住宿日期變更為" + in_date + " - " + out_date);
-	} catch ( Exception e ) {
+
+	    ModifyDateResult result = new ModifyDateResult(in_date, out_date);
+	    return result;
+
+	} catch ( SQLException e ) {
+	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	    System.exit(0);
+	} catch ( ParseException e ) {
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
 	}
+	return null;
     }
 
     public static void main( String args[] ){
 	ModifyDate modify = new ModifyDate("asd", 1, "2019-01-03", "2019-01-08");
 	String errMessage = null;
 	try{
-	    modify.setDate();
+	    ModifyDateResult r = modify.setDate();
+	    System.out.println("修改成功，已將您的住宿日期變更為" + r.in_date + " - " + r.out_date);
 	}
 	catch(Exception e){
 	    errMessage = e.getMessage();

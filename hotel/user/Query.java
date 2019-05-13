@@ -117,11 +117,11 @@ public class Query
     /**
      * Prints out the hotels that match the query
      */
-    private void searchRoom()
+    private ArrayList<QueryResult> searchRoom(int offset)
     {
 	Connection c = null;
 	Statement stmt = null;
-
+	ArrayList<QueryResult> resultList = new ArrayList<QueryResult>();
 	try {
 	    Class.forName("org.sqlite.JDBC");
 	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
@@ -133,16 +133,25 @@ public class Query
 		"ORDER BY ( " +
 		"ONE_PRICE * " + roomList.get(0).getValue() +
 		" + TWO_PRICE * " + roomList.get(1).getValue() + 
-		" + FOUR_PRICE * " + roomList.get(2).getValue() + ");";
+		" + FOUR_PRICE * " + roomList.get(2).getValue() + ")" +
+		" LIMIT " + offset + ", 20;";
 
+	    int one_adult = roomList.get(0).getValue();
+	    int two_adults = roomList.get(1).getValue();
+	    int four_adults = roomList.get(2).getValue();
 	    //System.out.println(query);
 	    ResultSet rs = stmt.executeQuery(query);
+	    
 	    while(rs.next()){
 		StringBuilder message = new StringBuilder();
 		Set<RoomType> typeSet = new HashSet<RoomType>();
 		int price = validate(rs, message, typeSet);
 		if(typeSet.size() == 0){
-		    System.out.println(message);
+		    QueryResult result = new QueryResult(rs.getInt("hotel_id"), rs.getInt("star"),
+							 one_adult, two_adults, four_adults,
+							 in_date, out_date, price);
+		    resultList.add(result);
+		    //System.out.println(message);
 		}
 	    }
 	    rs.close();
@@ -152,10 +161,19 @@ public class Query
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
 	}
+	return resultList;
     }
     
     public static void main( String args[] ){
 	Query query = new Query(10, 2, 3, "2019-01-01", "2019-01-10");
-	query.searchRoom();
+	ArrayList<QueryResult> resultList = query.searchRoom(0);
+	for(QueryResult r : resultList){
+	    System.out.println("HOTEL_ID: " + r.hotel_id);
+	    System.out.println("STAR: " + r.star);
+	    System.out.println("ONE_ADULT: " + r.one_adult);
+	    System.out.println("TWO_ADULTS: " + r.two_adults);
+	    System.out.println("FOUR_ADULTS: " + r.four_adults);
+	    System.out.println("TOTAL_PRICE: " + r.total_price);
+	}
     }
 }

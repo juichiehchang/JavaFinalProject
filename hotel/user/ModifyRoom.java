@@ -25,19 +25,17 @@ public class ModifyRoom extends Check
      * Modifies the room amounts of the order
      * @exception ModifyException exception for invalid room amounts
      */
-    private void setRoom() throws ModifyException
+    private ModifyRoomResult setRoom() throws ModifyException
     {
 	Connection c = null;
 	Statement stmt = null;
 
 	try {
-	    Class.forName("org.sqlite.JDBC");
+	    //Class.forName("org.sqlite.JDBC");
 	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
 	    stmt = c.createStatement();
-
-	    
 	    
 	    // check if order exists
 	    ResultSet rs = getSet(c, stmt);
@@ -102,22 +100,27 @@ public class ModifyRoom extends Check
 	    rs.close();
 	    stmt.close();
 	    c.close();
-	    System.out.println("修改成功，已將您的訂房數量變更為: ");
-	    System.out.println("ONE_ADULT: " + roomList.get(0).getValue());
-	    System.out.println("TWO_ADULTS: " + roomList.get(1).getValue());
-	    System.out.println("FOUR_ADULTS: " + roomList.get(2).getValue());
-
-	} catch ( Exception e ) {
+	    
+	    ModifyRoomResult result = new ModifyRoomResult(roomList.get(0).getValue(),
+							   roomList.get(1).getValue(), 
+							   roomList.get(2).getValue());
+	    return result;
+	} catch ( SQLException e ) {
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
 	}
+	return null;
     }
 
     public static void main( String args[] ){
 	ModifyRoom modify = new ModifyRoom("asd", 1, 0, 2, 3);
 	String errMessage = null;
 	try{
-	    modify.setRoom();
+	    ModifyRoomResult r = modify.setRoom();
+	    System.out.println("修改成功，已將您的訂房數量變更為: ");
+	    System.out.println("ONE_ADULT: " + r.one_adult);
+	    System.out.println("TWO_ADULTS: " + r.two_adults);
+	    System.out.println("FOUR_ADULTS: " + r.four_adults);
 	}
 	catch(Exception e){
 	    errMessage = e.getMessage();

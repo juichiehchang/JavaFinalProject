@@ -45,7 +45,7 @@ public class Cancel extends Check
 	Statement stmt = null;
 
 	try {
-	    Class.forName("org.sqlite.JDBC");
+	    //Class.forName("org.sqlite.JDBC");
 	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
 	    c.setAutoCommit(false);
 	    
@@ -69,8 +69,7 @@ public class Cancel extends Check
 	    c.commit();
 	    stmt.close();
 	    c.close();
-	    System.out.println("退訂成功，已取消您的訂房紀錄");
-	} catch ( Exception e ) {
+	} catch ( SQLException e ) {
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
 	}
@@ -81,6 +80,7 @@ public class Cancel extends Check
 	String errMessage = null;
 	try{
 	    cancel.delOrder();
+	    System.out.println("退訂成功，已取消您的訂房紀錄");
 	}
 	catch(Exception e){
 	    errMessage = e.getMessage();
