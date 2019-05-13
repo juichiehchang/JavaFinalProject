@@ -13,6 +13,15 @@ public class CheckResult
     public int total_nights;
     public int total_price;
 
+    /**
+     * Constructor which also sets the results that get returned by a check action
+     * @param hotel_id hotel id
+     * @param one_adult number single rooms
+     * @param two_adults number of double rooms
+     * @param four_adults number of quad rooms
+     * @param in_date check-in date
+     * @param out_date check-out date
+     */
     public CheckResult(int hotel_id, int one_adult, int two_adults, int four_adults, String in_date, String out_date, int total_nights, int total_price){
 	this.hotel_id = hotel_id;
 	this.one_adult = one_adult;

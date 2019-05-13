@@ -14,7 +14,17 @@ public class Order extends Query
      */
     private int hotel_id;
     private String uid;
-    
+
+    /**
+     * Constructor for initializing a order action
+     * @param one_adult number of single rooms
+     * @param two_adults number of double rooms
+     * @param four_adults number of quad rooms
+     * @param in_date check-in date
+     * @param out_date check-out date
+     * @param hotel_id hotel id
+     * @param uid user id
+     */
     public Order(int one_adult, int two_adults, int four_adults, String in_date, String out_date, int hotel_id, String uid)
     {
 	super(one_adult, two_adults, four_adults, in_date, out_date);
@@ -93,6 +103,7 @@ public class Order extends Query
 
     /**
      * Orders the hotel
+     * @return OrderResult containing the result of the order action
      * @exception OrderException exception for invalid order
      */
     private OrderResult orderRoom() throws OrderException
@@ -154,7 +165,6 @@ public class Order extends Query
 		System.out.println("total nights: " + date_diff);
 		*/
 
-		
 		rs.close();
 		stmt.close();
 		c.close();

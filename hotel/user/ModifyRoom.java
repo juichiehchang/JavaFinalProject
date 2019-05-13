@@ -12,7 +12,15 @@ public class ModifyRoom extends Check
      * @param roomList list of pairs that stores roomtype and amount ex:(ONE_ADULT, 3)
      */
     protected List<Pair<String, Integer>> roomList = new ArrayList<Pair<String, Integer>>();
-    
+
+    /**
+     * Constructor for initializing room-modifying action
+     * @param uid user id
+     * @param id order id
+     * @param one_adult number of single rooms
+     * @param two_adults number of double rooms
+     * @param four_adults number of quad rooms
+     */
     public ModifyRoom(String uid, int id, int one_adult, int two_adults, int four_adults)
     {
 	super(uid, id);
@@ -23,7 +31,8 @@ public class ModifyRoom extends Check
 
     /**
      * Modifies the room amounts of the order
-     * @exception ModifyException exception for invalid room amounts
+     * @return ModifyRoomResult information about the modified number of rooms
+     * @exception ModifyException exception for invalid nuumber of rooms
      */
     private ModifyRoomResult setRoom() throws ModifyException
     {

@@ -16,7 +16,7 @@ public class Date_diff
      */
     public static int getDiff(String date1, String date2){
 	try{
-	    // parse date-time format                                                                    
+	    // parse date-time format
 	    SimpleDateFormat simple = new SimpleDateFormat();
 	    simple.applyPattern("yyyy-MM-dd");
 	    Date d1 = simple.parse(date1);
@@ -27,6 +27,7 @@ public class Date_diff
 	
 	    int diffInDays = (int) ((d2.getTime() - d1.getTime())/ DAY_IN_MILLIS );
 	    return diffInDays;
+	    
 	}catch(Exception e){
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);

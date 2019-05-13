@@ -8,6 +8,11 @@ import hotel.exceptions.*;
  */
 public class Cancel extends Check
 {
+    /**
+     * Constructor which also sets the uid and id
+     * @param uid user id
+     * @param id order id
+     */
     public Cancel(String uid, int id)
     {
 	super(uid, id);

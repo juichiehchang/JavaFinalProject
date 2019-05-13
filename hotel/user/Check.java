@@ -16,6 +16,11 @@ public class Check
     protected String uid;
     protected int id;
 
+    /**
+     * Consructor which also sets the uid and id
+     * @param uid user id
+     * @param id order id
+     */
     public Check(String uid, int id)
     {
 	this.uid = uid;
@@ -46,6 +51,7 @@ public class Check
 
     /**
      * Prints out the order
+     * @return CheckResult containing the result of the check action
      * @exception CheckException exception for invalid order id
      */
     private CheckResult getOrder() throws CheckException

@@ -5,6 +5,10 @@ import java.sql.*;
  * Class for parsing the hotel data in the HOTEL table
  */
 public class ParseHotel{
+    /**
+     * Parses the hotel information from the result set
+     * @param rs result set that contains the hotel data
+     */
     public static void parse(ResultSet rs){
 	try{
 	    while ( rs.next() ) {
@@ -32,6 +36,9 @@ public class ParseHotel{
 	    System.exit(0);
 	}
     }
+    /** 
+     * Opens the database and parses all the hotel data in it
+     */
     public static void main(String[] args){
 	Connection c = null;
 	Statement stmt = null;

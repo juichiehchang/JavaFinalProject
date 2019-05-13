@@ -5,6 +5,10 @@ import java.sql.*;
  * Class for parsing the orders in the ORDERS table
  */
 public class ParseOrder{
+    /**
+     * Parses the order from the result set
+     * @parma rs result set that contains the order information
+     */
     public static void parse(ResultSet rs){
 	try{
 	    while ( rs.next() ) {
@@ -33,6 +37,9 @@ public class ParseOrder{
 	    System.exit(0);
 	}
     }
+    /**
+     * Opens the database and parses all the orders in it
+     */
     public static void main(String[] args){
 	Connection c = null;
 	Statement stmt = null;

@@ -4,15 +4,31 @@ package hotel.exceptions;
  */
 public class ModifyException extends Exception
 {
-    public static enum ExceptionTYPE { INVALID_ID, INVALID_AMOUNT, INVALID_DATE }
+    /**
+     * Exception types for modifyException: 
+     */
+    public static enum ExceptionTYPE {
+	/** Invalid order id */
+	INVALID_ID,
+	/** Invalid room amount */
+	INVALID_AMOUNT,
+	/** Invalid check-in, check-out date */
+	INVALID_DATE }
 
     private ExceptionTYPE type;
 
+    /**
+     * Constructor which also sets the exceptionType
+     */
     public ModifyException(ExceptionTYPE type)
     {
 	this.type = type;
     }
 
+    /**
+     * Returns the error message
+     * @return String that contains the error message, according to the exceptionType
+     */
     public String getMessage()
     {
 	switch(this.type){

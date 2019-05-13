@@ -15,7 +15,14 @@ public class ModifyDate extends Check
      */
     private String in_date;
     private String out_date;
-    
+
+    /**
+     * Constructor for initializing date-modifying action
+     * @param uid user id
+     * @param id order id
+     * @param in_date check-in date
+     * @param out_date check-out date
+     */
     public ModifyDate(String uid, int id, String in_date, String out_date)
     {
 	super(uid, id);
@@ -25,6 +32,7 @@ public class ModifyDate extends Check
 
     /**
      * Modifies the check-in and check-out dates of the order
+     * @return ModifyDateResult information about the modified in_date and out_date
      * @exception ModifyException exception for invalid check-in or check-out date
      */
     private ModifyDateResult setDate() throws ModifyException

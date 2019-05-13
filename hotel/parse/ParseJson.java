@@ -11,9 +11,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.*;
-
+/**
+ * Class for parsing json file data to into the database
+ */
 public class ParseJson
 {
+    /**
+     * Parses the json file and store the data into the datavase
+     */
     @SuppressWarnings("unchecked")
     public static void main(String[] args)
     {
@@ -39,6 +44,10 @@ public class ParseJson
             e.printStackTrace();
         }
     }
+    /**
+     * Parses single hotel information and insert it into the database
+     * @param hotel json object that contains the hotel information
+     */
     @SuppressWarnings("unchecked")
     private static void parseHotelObject(JSONObject hotel)
     {
@@ -65,10 +74,17 @@ public class ParseJson
 	ArrayList<Integer> amountList = new ArrayList<Integer>();
 	roomList.forEach( room -> parseRoomObject( (JSONObject) room, priceList, amountList ) );
 
+	// Insert into the hotel table
 	Insert.insertHotel(hotel_id, star, amountList.get(0), amountList.get(1), amountList.get(2),
 			   priceList.get(0), priceList.get(1), priceList.get(2));
     }
 
+    /**
+     * Parses the room information and store it into arrayLists
+     * @param room json object that contains the room information
+     * @param priceList arrayList that stores the price of each room type
+     * @param amountList arrayList that stores the amount of each room type
+     */
     private static void parseRoomObject(JSONObject room, ArrayList<Integer> priceList, ArrayList<Integer> amountList){
 	// Get room type
 	String roomType = (String) room.get("RoomType");

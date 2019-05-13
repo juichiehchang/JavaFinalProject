@@ -9,7 +9,7 @@ import hotel.exceptions.*;
 public class Query
 {
     /**
-     * @param roomList list of pairs that stores roomtype and amount ex:(ONE_ADULT, 3)
+     * @param roomList list of pairs that stores roomtype and number ex:(ONE_ADULT, 3)
      * @param in_date string that stores the check-in date
      * @param out_date string that stores the check-out date
      * @param date_diff date difference of in_date and out_date
@@ -20,13 +20,12 @@ public class Query
     protected String out_date;
     protected int date_diff;
     /**
-     * Contructor for initializing Query
-     * @param one_adult amount of single
-     * @param two_adults amount of double
-     * @param four_adults amount of quad
+     * Constructor for initializing Query
+     * @param one_adult number of single rooms
+     * @param two_adults number of double rooms
+     * @param four_adults number of quad rooms
      * @param in_date check-in date
      * @param out_date check-out date
-     * @param date_diff difference between two dates
      */
     public Query(int one_adult, int two_adults, int four_adults, String in_date, String out_date)
     {
@@ -39,11 +38,11 @@ public class Query
 	this.date_diff = Date_diff.getDiff(in_date, out_date);
     }
     /**
-     * Methods that returns the amount of reserved rooms with the given room_type in the given hotel
+     * Methods that returns the number of reserved rooms with the given room_type in the given hotel
      * returns -1 when fails
      * @param hotel_id target hotel
      * @param r_type room type
-     * @return the amount the reserved rooms
+     * @return the number of the reserved rooms
      */
     private int reservedRoomInHotel(int hotel_id, String r_type)
     {
@@ -115,7 +114,9 @@ public class Query
     }
 
     /**
-     * Prints out the hotels that match the query
+     * Gets the cheapest 20 hotels that match the query, starting from "offset"th
+     * @param offset starts from the "offset"th cheapest hotel
+     * @return ArrayList containing the hotel information
      */
     private ArrayList<QueryResult> searchRoom(int offset)
     {

@@ -8,11 +8,11 @@ public class Insert
 {
     /**
      * Insert hotel data into HOTEL table
-     * @param hotel_name name of the hotel
+     * @param hotel_id id of the hotel
      * @param star hotel rating
-     * @param one_adult amount of single
-     * @param two_adults amount of double
-     * @param four_adults amount of quadruple
+     * @param one_adult amount of single room
+     * @param two_adults amount of double room
+     * @param four_adults amount of quad room
      * @param price price of one_adult room
      * @param price price of two_adults room
      * @param price price of four_adults room

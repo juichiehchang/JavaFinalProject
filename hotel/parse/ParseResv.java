@@ -5,6 +5,10 @@ import java.sql.*;
  * Class for parsing the reservations in the RESV table
  */
 public class ParseResv{
+    /**
+     * Parses the reservation information from the result set
+     * @param rs result set that contains the reservation
+     */
     public static void parse(ResultSet rs){
 	try{
 	    while ( rs.next() ) {
@@ -30,6 +34,9 @@ public class ParseResv{
 	    System.exit(0);
 	}
     }
+    /**
+     * Opens the database and parses all the reservations in it
+     */
     public static void main(String[] args){
 	Connection c = null;
 	Statement stmt = null;

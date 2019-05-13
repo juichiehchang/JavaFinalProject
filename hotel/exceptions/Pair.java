@@ -5,7 +5,10 @@ package hotel.exceptions;
 public class Pair<K, V>{
     private K key;
     private V value;
-    
+
+    /**
+     * Contructor
+     */
     public Pair(K key, V value){
 	this.key = key;
 	this.value = value;
