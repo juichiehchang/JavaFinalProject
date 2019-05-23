@@ -85,7 +85,7 @@ public class Cancel extends Check
 	String errMessage = null;
 	try{
 	    cancel.delOrder();
-	    System.out.println("退訂成功，已取消您的訂房紀錄");
+	    System.out.println("Cancellation succeed. Your booking record is cancelled");
 	}
 	catch(Exception e){
 	    errMessage = e.getMessage();
