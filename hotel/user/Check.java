@@ -54,7 +54,7 @@ public class Check
      * @return CheckResult containing the result of the check action
      * @exception CheckException exception for invalid order id
      */
-    private CheckResult getOrder() throws CheckException
+    public CheckResult getOrder() throws CheckException
     {
 	Connection c = null;
 	Statement stmt = null;

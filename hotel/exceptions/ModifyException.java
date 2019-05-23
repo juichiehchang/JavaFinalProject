@@ -33,11 +33,11 @@ public class ModifyException extends Exception
     {
 	switch(this.type){
 	case INVALID_ID:
-	    return "退訂/修改失敗，此訂位代號不存在";
+	    return "Cancel/Modification fails: id doesn't exist.";
 	case INVALID_AMOUNT:
-	    return "修改失敗，修改數量超過訂房數量";
+	    return "Modification fails: attempt to increase number of rooms.";
 	case INVALID_DATE:
-	    return "修改失敗，無法延長訂房時間";
+	    return "Modification fails: cannot extend reservation date.";
 	default:
 	    return "TYPE_ERROR";
 	}

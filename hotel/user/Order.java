@@ -106,7 +106,7 @@ public class Order extends Query
      * @return OrderResult containing the result of the order action
      * @exception OrderException exception for invalid order
      */
-    private OrderResult orderRoom() throws OrderException
+    public OrderResult orderRoom() throws OrderException
     {
 	Connection c = null;
 	Statement stmt = null;

@@ -35,7 +35,7 @@ public class ModifyDate extends Check
      * @return ModifyDateResult information about the modified in_date and out_date
      * @exception ModifyException exception for invalid check-in or check-out date
      */
-    private ModifyDateResult setDate() throws ModifyException
+    public ModifyDateResult setDate() throws ModifyException
     {
 	Connection c = null;
 	Statement stmt = null;
@@ -108,7 +108,8 @@ public class ModifyDate extends Check
 	String errMessage = null;
 	try{
 	    ModifyDateResult r = modify.setDate();
-	    System.out.println("修改成功，已將您的住宿日期變更為" + r.in_date + " - " + r.out_date);
+	    System.out.println("Modification succeed. Your booking date has been changed to " +
+			       r.in_date + " - " + r.out_date);
 	}
 	catch(Exception e){
 	    errMessage = e.getMessage();

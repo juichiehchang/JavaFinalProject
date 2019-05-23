@@ -118,7 +118,7 @@ public class Query
      * @param offset starts from the "offset"th cheapest hotel
      * @return ArrayList containing the hotel information
      */
-    private ArrayList<QueryResult> searchRoom(int offset)
+    public ArrayList<QueryResult> searchRoom(int offset)
     {
 	Connection c = null;
 	Statement stmt = null;

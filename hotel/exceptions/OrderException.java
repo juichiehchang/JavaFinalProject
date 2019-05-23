@@ -22,9 +22,9 @@ public class OrderException extends Exception
      */
     public String getMessage()
     {
-	String message = "失敗\n";
+	String message = "Fails\n";
 	for(RoomType type : typeSet)
-	    message += type.name() + "房間數量不足/房間已售罄\n";
+	    message += type.name() + "insufficient\n";
 
 	return message;
     }

@@ -44,7 +44,7 @@ public class Cancel extends Check
      * Deletes the order
      * @exception ModifyException exception for invalid order id
      */
-    private void delOrder() throws ModifyException
+    public void delOrder() throws ModifyException
     {
 	Connection c = null;
 	Statement stmt = null;

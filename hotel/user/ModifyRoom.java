@@ -34,7 +34,7 @@ public class ModifyRoom extends Check
      * @return ModifyRoomResult information about the modified number of rooms
      * @exception ModifyException exception for invalid nuumber of rooms
      */
-    private ModifyRoomResult setRoom() throws ModifyException
+    public ModifyRoomResult setRoom() throws ModifyException
     {
 	Connection c = null;
 	Statement stmt = null;
@@ -126,7 +126,7 @@ public class ModifyRoom extends Check
 	String errMessage = null;
 	try{
 	    ModifyRoomResult r = modify.setRoom();
-	    System.out.println("修改成功，已將您的訂房數量變更為: ");
+	    System.out.println("Modification succeed. Your room type has been changed to: ");
 	    System.out.println("ONE_ADULT: " + r.one_adult);
 	    System.out.println("TWO_ADULTS: " + r.two_adults);
 	    System.out.println("FOUR_ADULTS: " + r.four_adults);
