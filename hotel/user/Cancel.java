@@ -71,12 +71,13 @@ public class Cancel extends Check
 		"WHERE UID = \'" + uid + "\' " + "AND ID = " + id + ";";
 	    stmt.executeUpdate(query);
 	    
-	    c.commit();
-	    stmt.close();
-	    c.close();
 	} catch ( SQLException e ) {
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
+	} finally {
+	    c.commit();
+	    stmt.close();
+	    c.close();
 	}
     }
 

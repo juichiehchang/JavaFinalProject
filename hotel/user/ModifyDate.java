@@ -86,9 +86,6 @@ public class ModifyDate extends Check
 	    stmt.executeUpdate(modify);
 
 	    c.commit();
-	    rs.close();
-	    stmt.close();
-	    c.close();
 
 	    ModifyDateResult result = new ModifyDateResult(in_date, out_date);
 	    return result;
@@ -99,6 +96,10 @@ public class ModifyDate extends Check
 	} catch ( ParseException e ) {
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
+	} finally {
+	    rs.close();
+	    stmt.close();
+	    c.close();
 	}
 	return null;
     }

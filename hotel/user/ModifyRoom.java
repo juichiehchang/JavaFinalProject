@@ -74,9 +74,6 @@ public class ModifyRoom extends Check
 		int amount = roomPair.getValue();
 		// tries to add room
 		if(amount > rs.getInt(r_type)){
-		    rs.close();
-		    stmt.close();
-		    c.close();
 		    throw new ModifyException(ModifyException.ExceptionTYPE.INVALID_AMOUNT);
 		}
 		delList.add(new Pair<>(r_type, rs.getInt(r_type) - amount));
@@ -106,9 +103,6 @@ public class ModifyRoom extends Check
 	    }
 
 	    c.commit();
-	    rs.close();
-	    stmt.close();
-	    c.close();
 	    
 	    ModifyRoomResult result = new ModifyRoomResult(roomList.get(0).getValue(),
 							   roomList.get(1).getValue(), 
@@ -117,6 +111,10 @@ public class ModifyRoom extends Check
 	} catch ( SQLException e ) {
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
+	} finally {
+	    rs.close();
+	    stmt.close();
+	    c.close();
 	}
 	return null;
     }

@@ -81,14 +81,16 @@ public class Check
 						 rs.getInt("total_price"));
 	    // print out the order
 	    //ParseOrder.parse(rs);
-	    rs.close();
-	    stmt.close();
-	    c.close();
+	    
 	    return result;
 	}
 	catch(SQLException e){
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
+	} finally {
+	    rs.close();
+	    stmt.close();
+	    c.close();
 	}
 	return null;
     }

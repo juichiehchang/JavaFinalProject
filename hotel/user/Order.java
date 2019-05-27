@@ -67,6 +67,7 @@ public class Order extends Query
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
 	}
+	    
 	return rooms;
     }
 
@@ -188,9 +189,7 @@ public class Order extends Query
 		    "\', \'" + uid + "\', " + id + ", " + price + ");";
 		//System.out.println(order);
 		stmt.executeUpdate(order);
-		stmt.close();
-		c.commit();
-		c.close();
+		
 		OrderResult result = new OrderResult(hotel_id, roomList.get(0).getValue(),
 						     roomList.get(1).getValue(),
 						     roomList.get(2).getValue(),
@@ -204,6 +203,10 @@ public class Order extends Query
 	catch ( SQLException e ) {
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
+	} finally {
+	    stmt.close();
+	    c.commit();
+	    c.close();
 	}
 	return null;
     }
