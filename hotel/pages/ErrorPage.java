@@ -17,7 +17,7 @@ public class ErrorPage{
 	public void error_msg(){
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JFrame errorframe = new JFrame("Error");
-		errorframe.setSize(300,400);
+		errorframe.setSize(500,500);
         errorframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel errorpanel = new JPanel();
 		JLabel errorlabel = new JLabel();
