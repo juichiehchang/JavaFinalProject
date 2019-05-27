@@ -30,12 +30,12 @@ public class OrderException extends Exception
      */
     public String getMessage()
     {
-	String message = "Fails<br/>";
+	String message = "Fails";
 	if(typeSet == null)
-	    return "Invalid hotel id<br/>";
+	    return "Invalid hotel id";
 	
 	for(RoomType type : typeSet)
-	    message += type.name() + " insufficient<br/>";
+	    message += type.name() + " insufficient";
 
 	return message;
     }
