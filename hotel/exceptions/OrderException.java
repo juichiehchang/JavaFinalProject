@@ -17,14 +17,25 @@ public class OrderException extends Exception
     }
 
     /**
+     * Constructor for invalid hotel id
+     */
+    public OrderException()
+    {
+	this.typeSet = null;
+    }
+    
+    /**
      * Returns the error message
      * @return String that contains the error message, according to the typeSet
      */
     public String getMessage()
     {
-	String message = "Fails\n";
+	String message = "Fails<br/>";
+	if(typeSet == null)
+	    return "Invalid hotel id<br/>";
+	
 	for(RoomType type : typeSet)
-	    message += type.name() + "insufficient\n";
+	    message += type.name() + " insufficient<br/>";
 
 	return message;
     }

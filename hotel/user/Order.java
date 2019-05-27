@@ -67,6 +67,7 @@ public class Order extends Query
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
 	}
+	    
 	return rooms;
     }
 
@@ -124,8 +125,10 @@ public class Order extends Query
 	    ResultSet rs = stmt.executeQuery(query);
 	    // hotel doesn't exist
 	    if(!rs.isBeforeFirst()){
-		System.out.println("No such hotel");
-		System.exit(0);
+		rs.close();
+		stmt.close();
+		c.close();
+		throw new OrderException();
 	    }
 	    
 	    StringBuilder message = new StringBuilder();
@@ -198,6 +201,9 @@ public class Order extends Query
 		return result;
 	    }
 	    else{
+		rs.close();
+		stmt.close();
+		c.close();
 		throw new OrderException(typeSet);
 	    }
 	}

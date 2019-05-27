@@ -69,6 +69,9 @@ public class Check
 	    ResultSet rs = getSet(c, stmt);
 	    // order doesn't exist
 	    if(rs == null || !rs.isBeforeFirst()){
+		rs.close();
+		stmt.close();
+		c.close();
 		throw new CheckException();
 	    }
 	    // prepare check result

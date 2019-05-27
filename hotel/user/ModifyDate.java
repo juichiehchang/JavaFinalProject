@@ -50,6 +50,9 @@ public class ModifyDate extends Check
 	    ResultSet rs = getSet(c, stmt);
 	    // order doesn't exist
 	    if(!rs.isBeforeFirst()){
+		rs.close();
+		stmt.close();
+		c.close();
 		throw new ModifyException(ModifyException.ExceptionTYPE.INVALID_ID);
 	    }
 
@@ -65,6 +68,9 @@ public class ModifyDate extends Check
 	    if(simple.parse(in_date).after(simple.parse(out_date)) ||
 	       simple.parse(in_date).before(simple.parse(pre_in)) ||
 	       simple.parse(out_date).after(simple.parse(pre_out))){
+		rs.close();
+		stmt.close();
+		c.close();
 		throw new ModifyException(ModifyException.ExceptionTYPE.INVALID_DATE);
 	    }
 	    
@@ -89,7 +95,6 @@ public class ModifyDate extends Check
 	    rs.close();
 	    stmt.close();
 	    c.close();
-
 	    ModifyDateResult result = new ModifyDateResult(in_date, out_date);
 	    return result;
 

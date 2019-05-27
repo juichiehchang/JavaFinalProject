@@ -49,6 +49,9 @@ public class ModifyRoom extends Check
 	    // check if order exists
 	    ResultSet rs = getSet(c, stmt);
 	    if(!rs.isBeforeFirst()){
+		rs.close();
+		stmt.close();
+		c.close();
 		throw new ModifyException(ModifyException.ExceptionTYPE.INVALID_ID);
 	    }
 	    // get hotel id
@@ -109,7 +112,6 @@ public class ModifyRoom extends Check
 	    rs.close();
 	    stmt.close();
 	    c.close();
-	    
 	    ModifyRoomResult result = new ModifyRoomResult(roomList.get(0).getValue(),
 							   roomList.get(1).getValue(), 
 							   roomList.get(2).getValue());
@@ -117,6 +119,8 @@ public class ModifyRoom extends Check
 	} catch ( SQLException e ) {
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
+	} finally {
+	    
 	}
 	return null;
     }
