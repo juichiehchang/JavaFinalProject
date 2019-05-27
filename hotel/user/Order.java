@@ -125,8 +125,10 @@ public class Order extends Query
 	    ResultSet rs = stmt.executeQuery(query);
 	    // hotel doesn't exist
 	    if(!rs.isBeforeFirst()){
-		System.out.println("No such hotel");
-		System.exit(0);
+		rs.close();
+		stmt.close();
+		c.close();
+		throw new OrderException();
 	    }
 	    
 	    StringBuilder message = new StringBuilder();
@@ -189,7 +191,9 @@ public class Order extends Query
 		    "\', \'" + uid + "\', " + id + ", " + price + ");";
 		//System.out.println(order);
 		stmt.executeUpdate(order);
-		
+		stmt.close();
+		c.commit();
+		c.close();
 		OrderResult result = new OrderResult(hotel_id, roomList.get(0).getValue(),
 						     roomList.get(1).getValue(),
 						     roomList.get(2).getValue(),
@@ -197,16 +201,15 @@ public class Order extends Query
 		return result;
 	    }
 	    else{
+		rs.close();
+		stmt.close();
+		c.close();
 		throw new OrderException(typeSet);
 	    }
 	}
 	catch ( SQLException e ) {
 	    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	    System.exit(0);
-	} finally {
-	    stmt.close();
-	    c.commit();
-	    c.close();
 	}
 	return null;
     }
