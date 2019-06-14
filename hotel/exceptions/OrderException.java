@@ -35,7 +35,7 @@ public class OrderException extends Exception
 	    return "Invalid hotel id";
 	
 	for(RoomType type : typeSet)
-	    message += type.name() + " insufficient";
+	    message += type.name() + " insufficient\n";
 
 	return message;
     }
