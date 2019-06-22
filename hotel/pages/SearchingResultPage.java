@@ -14,43 +14,22 @@ public class SearchingResultPage{
 	private int singleroom;
 	private int doubleroom;
 	private int quadroom;
-	private int Offset;
+	private Query A;
+	public int nowPage;
 
 	
-	public SearchingResultPage(int Offset, String indate, String outdate, int singleroom, int doubleroom, int quadroom){
+	public SearchingResultPage(String indate, String outdate, int singleroom, int doubleroom, int quadroom){
 		this.indate = indate;
 		this.outdate = outdate;
 		this.singleroom = singleroom;
 		this.doubleroom = doubleroom;
 		this.quadroom = quadroom;
-		this.Offset = Offset;
-		
+		this.A = new Query(this.singleroom, this.doubleroom, this.quadroom, this.indate, this.outdate);
+		this.nowPage = 1;
 	}
-
-    public void createresultGUI(){
-
-        JFrame.setDefaultLookAndFeelDecorated(true);
-
-
-        JFrame resultframe = new JFrame("SearchingResult");
-		resultframe.setSize(500,550);
-
-
-        JPanel resultpanel = new JPanel();
+	public int SetTable(JPanel resultpanel){
+		ArrayList<QueryResult> resultList = this.A.searchRoom(nowPage);
 		
-		resultframe.add(resultpanel,BorderLayout.CENTER);
-		
-		resultpanel.setLayout(new BorderLayout());
-		
-		JLabel ResultnameLabel = new JLabel("The Result:");
-		//ResultnameLabel.setBounds(65,70,180,25);
-		resultframe.add(ResultnameLabel,BorderLayout.NORTH);
-		
-		Query A = new Query(this.singleroom, this.doubleroom, this.quadroom, this.indate, this.outdate);
-		ArrayList<QueryResult> resultList = A.searchRoom(this.Offset);
-        resultframe.setVisible(true);
-		
-
 		String[] tabletitle = {"HOTEL_ID", "STAR", "ONE_ADULT", "TWO_ADULTS", "FOUR_ADULTS", "TOTAL_PRICE"};
 		Object [][]data = {};
 		JTable showTable = new JTable(data,tabletitle);
@@ -68,16 +47,42 @@ public class SearchingResultPage{
 		}
 		if(itemcount > 0) TableModel.removeRow(0);
 		
-		int newOffset = Offset + itemcount;
+		return itemcount;
+	}
+    public void createresultGUI(){
+
+        JFrame.setDefaultLookAndFeelDecorated(true);
+
+
+        JFrame resultframe = new JFrame("SearchingResult");
+		resultframe.setSize(500,550);
+        resultframe.setVisible(true);
+
+        JPanel resultpanel = new JPanel();
+		
+		resultframe.add(resultpanel,BorderLayout.CENTER);
+		
+		resultpanel.setLayout(new BorderLayout());
+		
+		JLabel ResultnameLabel = new JLabel("The Result:");
+		//ResultnameLabel.setBounds(65,70,180,25);
+		resultframe.add(ResultnameLabel,BorderLayout.NORTH);
+		
+		int itemnumber = SetTable(resultpanel);
+        resultpanel.add(new JLabel(String.valueOf(nowPage)),BorderLayout.SOUTH);
+		
         JButton backButton = new JButton("Return");
 		JButton nextButton = new JButton("Next Page");
+		JButton previousButton = new JButton("Previous Page");	
 		JButton bookButton = new JButton("Start Booking");		
 		JPanel btnPanel = new JPanel();
 		
         backButton.setPreferredSize(new Dimension(115, 25));
         nextButton.setPreferredSize(new Dimension(115, 25));
+		previousButton.setPreferredSize(new Dimension(115, 25));
 		bookButton.setPreferredSize(new Dimension(115, 25));
 		btnPanel.add(backButton);
+		btnPanel.add(previousButton);
 		btnPanel.add(nextButton);
 		btnPanel.add(bookButton);
 		
@@ -89,11 +94,18 @@ public class SearchingResultPage{
 				newtitle.createTitleGUI();
 			}
 		});
+		previousButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				resultframe.dispose();
+				if (nowPage > 1) nowPage --;
+				createresultGUI();
+			}
+		});
 		nextButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				resultframe.dispose();
-				SearchingResultPage nextPage = new SearchingResultPage(newOffset, indate, outdate, singleroom, doubleroom, quadroom);
-				nextPage.createresultGUI();
+				if (itemnumber > 0) nowPage += 1;
+				createresultGUI();
 			}
 		});
 		bookButton.addActionListener(new ActionListener(){
@@ -107,7 +119,7 @@ public class SearchingResultPage{
 	
     public static void main(String[] args) {
 
-		SearchingResultPage resultpage = new SearchingResultPage(0,"2012-01-01","2012-01-03",1,2,3);
+		SearchingResultPage resultpage = new SearchingResultPage("2012-01-01","2012-01-03",1,2,3);
 		resultpage.createresultGUI();
 
     }
