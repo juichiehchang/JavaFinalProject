@@ -27,7 +27,7 @@ public class Order extends Query
      */
     public Order(int one_adult, int two_adults, int four_adults, String in_date, String out_date, int hotel_id, String uid)
     {
-	super(one_adult, two_adults, four_adults, in_date, out_date);
+	super(one_adult, two_adults, four_adults, in_date, out_date, 0);
 
 	this.hotel_id = hotel_id;
 	this.uid = uid;

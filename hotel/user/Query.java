@@ -14,7 +14,9 @@ public class Query
     protected String in_date;
     protected String out_date;
     protected int date_diff;
+    protected int star;
     private int offsetList[] = new int[75];
+    
     /**
      * Constructor for initializing Query
      * @param one_adult number of single rooms
@@ -22,8 +24,10 @@ public class Query
      * @param four_adults number of quad rooms
      * @param in_date check-in date
      * @param out_date check-out date
+     * @param star number of stars of the hotel
      */
-    public Query(int one_adult, int two_adults, int four_adults, String in_date, String out_date)
+    public Query(int one_adult, int two_adults, int four_adults,
+		 String in_date, String out_date, int star)
     {
 	roomList.add(new Pair<>(RoomType.ONE_ADULT, one_adult));
 	roomList.add(new Pair<>(RoomType.TWO_ADULTS, two_adults));
@@ -32,6 +36,7 @@ public class Query
 	this.in_date = in_date;
 	this.out_date = out_date;
 	this.date_diff = Date_diff.getDiff(in_date, out_date);
+	this.star = star;
     }
     /**
      * Methods that returns the number of reserved rooms with the given room_type in the given hotel
@@ -129,6 +134,7 @@ public class Query
 	    stmt = c.createStatement();
 	    // get hotel info, ordered by total price
 	    String query = "SELECT * FROM HOTEL " +
+		"WHERE STAR = \'" + star + "\' " + 
 		"ORDER BY ( " +
 		"ONE_PRICE * " + roomList.get(0).getValue() +
 		" + TWO_PRICE * " + roomList.get(1).getValue() + 
@@ -173,7 +179,7 @@ public class Query
     }
     
     public static void main( String args[] ){
-	Query query = new Query(10, 2, 3, "2019-01-01", "2019-01-10");
+	Query query = new Query(10, 2, 3, "2019-01-01", "2019-01-10", 3);
 	ArrayList<QueryResult> resultList = query.searchRoom(0);
 	for(QueryResult r : resultList){
 	    System.out.println("HOTEL_ID: " + r.hotel_id);
