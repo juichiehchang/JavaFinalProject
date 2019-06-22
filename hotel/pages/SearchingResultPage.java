@@ -61,11 +61,13 @@ public class SearchingResultPage{
 		
 		resultpanel.add(tableContainer,BorderLayout.CENTER);
 		int itemcount = 0;
+		
 		for(QueryResult r : resultList){
 			TableModel.addRow(new Object[]{r.hotel_id,r.star,r.one_adult,r.two_adults,r.four_adults,r.total_price});
 			itemcount += 1;
 		}
-		TableModel.removeRow(0);
+		if(itemcount > 0) TableModel.removeRow(0);
+		
 		int newOffset = Offset + itemcount;
         JButton backButton = new JButton("Return");
 		JButton nextButton = new JButton("Next Page");
