@@ -14,7 +14,7 @@ public class Query
     protected String in_date;
     protected String out_date;
     protected int date_diff;
-    private int offset;
+    private int offsetList[] = new int[75];
     /**
      * Constructor for initializing Query
      * @param one_adult number of single rooms
@@ -32,7 +32,6 @@ public class Query
 	this.in_date = in_date;
 	this.out_date = out_date;
 	this.date_diff = Date_diff.getDiff(in_date, out_date);
-	this.offset = 0;
     }
     /**
      * Methods that returns the number of reserved rooms with the given room_type in the given hotel
@@ -111,14 +110,17 @@ public class Query
     }
 
     /**
-     * Gets the cheapest 20 hotels that match the query, starting from "offset"th
+     * Gets the cheapest 20 hotels that match the query, starting from the "offset[pageNum]"th
+     * @param pageNum page index for GUI
      * @return ArrayList containing the hotel information
      */
-    public ArrayList<QueryResult> searchRoom()
+    public ArrayList<QueryResult> searchRoom(int pageNum)
     {
 	Connection c = null;
 	Statement stmt = null;
 	ArrayList<QueryResult> resultList = new ArrayList<QueryResult>();
+
+	int offset = offsetList[pageNum];
 	try {
 	    Class.forName("org.sqlite.JDBC");
 	    c = DriverManager.getConnection("jdbc:sqlite:hotel/data/hotelreservation.db");
@@ -158,6 +160,8 @@ public class Query
 		if(counter == 20)
 		    break;
 	    }
+	    offsetList[pageNum + 1] = offset;
+	    
 	    rs.close();
 	    stmt.close();
 	    c.close();
@@ -170,7 +174,27 @@ public class Query
     
     public static void main( String args[] ){
 	Query query = new Query(10, 2, 3, "2019-01-01", "2019-01-10");
-	ArrayList<QueryResult> resultList = query.searchRoom();
+	ArrayList<QueryResult> resultList = query.searchRoom(0);
+	for(QueryResult r : resultList){
+	    System.out.println("HOTEL_ID: " + r.hotel_id);
+	    System.out.println("STAR: " + r.star);
+	    System.out.println("ONE_ADULT: " + r.one_adult);
+	    System.out.println("TWO_ADULTS: " + r.two_adults);
+	    System.out.println("FOUR_ADULTS: " + r.four_adults);
+	    System.out.println("TOTAL_PRICE: " + r.total_price);
+	}
+	System.out.println("----------------------------------------------------");
+	resultList = query.searchRoom(1);
+	for(QueryResult r : resultList){
+	    System.out.println("HOTEL_ID: " + r.hotel_id);
+	    System.out.println("STAR: " + r.star);
+	    System.out.println("ONE_ADULT: " + r.one_adult);
+	    System.out.println("TWO_ADULTS: " + r.two_adults);
+	    System.out.println("FOUR_ADULTS: " + r.four_adults);
+	    System.out.println("TOTAL_PRICE: " + r.total_price);
+	}
+	System.out.println("----------------------------------------------------");
+	resultList = query.searchRoom(0);
 	for(QueryResult r : resultList){
 	    System.out.println("HOTEL_ID: " + r.hotel_id);
 	    System.out.println("STAR: " + r.star);
