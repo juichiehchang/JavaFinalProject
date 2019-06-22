@@ -14,6 +14,7 @@ public class Query
     protected String in_date;
     protected String out_date;
     protected int date_diff;
+    private int offset;
     /**
      * Constructor for initializing Query
      * @param one_adult number of single rooms
@@ -31,6 +32,7 @@ public class Query
 	this.in_date = in_date;
 	this.out_date = out_date;
 	this.date_diff = Date_diff.getDiff(in_date, out_date);
+	this.offset = 0;
     }
     /**
      * Methods that returns the number of reserved rooms with the given room_type in the given hotel
@@ -110,10 +112,9 @@ public class Query
 
     /**
      * Gets the cheapest 20 hotels that match the query, starting from "offset"th
-     * @param offset starts from the "offset"th cheapest hotel
      * @return ArrayList containing the hotel information
      */
-    public ArrayList<QueryResult> searchRoom(int offset)
+    public ArrayList<QueryResult> searchRoom()
     {
 	Connection c = null;
 	Statement stmt = null;
@@ -130,15 +131,18 @@ public class Query
 		"ONE_PRICE * " + roomList.get(0).getValue() +
 		" + TWO_PRICE * " + roomList.get(1).getValue() + 
 		" + FOUR_PRICE * " + roomList.get(2).getValue() + ")" +
-		" LIMIT " + offset + ", 20;";
+		" LIMIT -1 OFFSET " + offset + ";";
 
 	    int one_adult = roomList.get(0).getValue();
 	    int two_adults = roomList.get(1).getValue();
 	    int four_adults = roomList.get(2).getValue();
 	    //System.out.println(query);
 	    ResultSet rs = stmt.executeQuery(query);
+
+	    int counter = 0;
 	    
 	    while(rs.next()){
+		offset++;
 		StringBuilder message = new StringBuilder();
 		Set<RoomType> typeSet = new HashSet<RoomType>();
 		int price = validate(rs, message, typeSet);
@@ -147,8 +151,12 @@ public class Query
 							 one_adult, two_adults, four_adults,
 							 in_date, out_date, price);
 		    resultList.add(result);
+		    counter++;
 		    //System.out.println(message);
 		}
+		// found 20 hotels
+		if(counter == 20)
+		    break;
 	    }
 	    rs.close();
 	    stmt.close();
@@ -162,7 +170,7 @@ public class Query
     
     public static void main( String args[] ){
 	Query query = new Query(10, 2, 3, "2019-01-01", "2019-01-10");
-	ArrayList<QueryResult> resultList = query.searchRoom(0);
+	ArrayList<QueryResult> resultList = query.searchRoom();
 	for(QueryResult r : resultList){
 	    System.out.println("HOTEL_ID: " + r.hotel_id);
 	    System.out.println("STAR: " + r.star);
