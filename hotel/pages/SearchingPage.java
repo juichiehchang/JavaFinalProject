@@ -124,7 +124,7 @@ public class SearchingPage{
 		searchButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				SearchingResultPage searchingResult = new SearchingResultPage(0, indateY.getText()+"-"+indateM.getText()+"-"+indateD.getText(),outdateY.getText()+"-"+outdateM.getText()+"-"+outdateD.getText(),Integer.parseInt(singleroom.getText()),Integer.parseInt(doubleroom.getText()),Integer.parseInt(quadroom.getText()));
+				SearchingResultPage searchingResult = new SearchingResultPage(indateY.getText()+"-"+indateM.getText()+"-"+indateD.getText(),outdateY.getText()+"-"+outdateM.getText()+"-"+outdateD.getText(),Integer.parseInt(singleroom.getText()),Integer.parseInt(doubleroom.getText()),Integer.parseInt(quadroom.getText()));
 				searchingResult.createresultGUI();
 			}
 		});
