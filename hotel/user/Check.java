@@ -9,10 +9,7 @@ import hotel.parse.*;
  */
 public class Check
 {
-    /**
-     * @param uid user id
-     * @param id order id
-     */
+
     protected String uid;
     protected int id;
 

@@ -8,9 +8,7 @@ import hotel.exceptions.*;
  */
 public class ModifyRoom extends Check
 {
-    /**
-     * @param roomList list of pairs that stores roomtype and amount ex:(ONE_ADULT, 3)
-     */
+
     protected List<Pair<String, Integer>> roomList = new ArrayList<Pair<String, Integer>>();
 
     /**

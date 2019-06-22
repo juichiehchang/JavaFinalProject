@@ -19,6 +19,7 @@ public class ModifyException extends Exception
 
     /**
      * Constructor which also sets the exceptionType
+     * @param type type of error
      */
     public ModifyException(ExceptionTYPE type)
     {

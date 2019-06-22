@@ -10,6 +10,7 @@ public class OrderException extends Exception
 
     /**
      * Constructor which also sets the room types that caused the error
+     * @param typeSet set of room types causing the exception
      */
     public OrderException(Set<RoomType> typeSet)
     {

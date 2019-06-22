@@ -8,6 +8,8 @@ public class Pair<K, V>{
 
     /**
      * Contructor
+     * @param key key
+     * @param value value
      */
     public Pair(K key, V value){
 	this.key = key;

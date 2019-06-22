@@ -8,12 +8,7 @@ import hotel.exceptions.*;
  */
 public class Query
 {
-    /**
-     * @param roomList list of pairs that stores roomtype and number ex:(ONE_ADULT, 3)
-     * @param in_date string that stores the check-in date
-     * @param out_date string that stores the check-out date
-     * @param date_diff date difference of in_date and out_date
-     */
+
     protected List<Pair<RoomType, Integer>> roomList = new ArrayList<Pair<RoomType, Integer>>();
 
     protected String in_date;
