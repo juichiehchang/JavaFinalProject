@@ -13,9 +13,9 @@ public class Insert
      * @param one_adult amount of single room
      * @param two_adults amount of double room
      * @param four_adults amount of quad room
-     * @param price price of one_adult room
-     * @param price price of two_adults room
-     * @param price price of four_adults room
+     * @param one_price price of one_adult room
+     * @param two_price price of two_adults room
+     * @param four_price price of four_adults room
      */
     public static void insertHotel(int hotel_id, int star, int one_adult, int two_adults, int four_adults, int one_price, int two_price, int four_price)
     {

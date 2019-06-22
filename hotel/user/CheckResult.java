@@ -21,6 +21,8 @@ public class CheckResult
      * @param four_adults number of quad rooms
      * @param in_date check-in date
      * @param out_date check-out date
+     * @param total_nights number of nights(checkin date - checkout date)
+     * @param total_price total price to pay
      */
     public CheckResult(int hotel_id, int one_adult, int two_adults, int four_adults, String in_date, String out_date, int total_nights, int total_price){
 	this.hotel_id = hotel_id;

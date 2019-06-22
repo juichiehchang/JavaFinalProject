@@ -7,7 +7,7 @@ import java.sql.*;
 public class ParseOrder{
     /**
      * Parses the order from the result set
-     * @parma rs result set that contains the order information
+     * @param rs result set that contains the order information
      */
     public static void parse(ResultSet rs){
 	try{
