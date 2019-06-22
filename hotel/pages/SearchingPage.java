@@ -111,7 +111,20 @@ public class SearchingPage{
 
 		box.add(quadPanel);
 		panel.add(box);		
-			
+
+		JPanel starPanel = new JPanel();	
+		JLabel starLabel = new JLabel("Star:");
+
+		starPanel.add(starLabel);
+		
+        JTextField star = new JTextField(20);
+
+        starPanel.add(star);
+		box = Box.createHorizontalBox();
+
+		box.add(starPanel);
+		panel.add(box);		
+		
         JButton searchButton = new JButton("Search");
         JButton backButton = new JButton("Return");
 		JPanel btnPanel = new JPanel();
@@ -124,7 +137,7 @@ public class SearchingPage{
 		searchButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				SearchingResultPage searchingResult = new SearchingResultPage(indateY.getText()+"-"+indateM.getText()+"-"+indateD.getText(),outdateY.getText()+"-"+outdateM.getText()+"-"+outdateD.getText(),Integer.parseInt(singleroom.getText()),Integer.parseInt(doubleroom.getText()),Integer.parseInt(quadroom.getText()));
+				SearchingResultPage searchingResult = new SearchingResultPage(indateY.getText()+"-"+indateM.getText()+"-"+indateD.getText(),outdateY.getText()+"-"+outdateM.getText()+"-"+outdateD.getText(),Integer.parseInt(singleroom.getText()),Integer.parseInt(doubleroom.getText()),Integer.parseInt(quadroom.getText()),Integer.parseInt(star.getText()));
 				searchingResult.createresultGUI();
 			}
 		});

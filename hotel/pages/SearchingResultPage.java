@@ -16,16 +16,17 @@ public class SearchingResultPage{
 	private int quadroom;
 	private Query A;
 	public int nowPage;
-
+	private int star;
 	
-	public SearchingResultPage(String indate, String outdate, int singleroom, int doubleroom, int quadroom){
+	public SearchingResultPage(String indate, String outdate, int singleroom, int doubleroom, int quadroom, int star){
 		this.indate = indate;
 		this.outdate = outdate;
 		this.singleroom = singleroom;
 		this.doubleroom = doubleroom;
 		this.quadroom = quadroom;
-		this.A = new Query(this.singleroom, this.doubleroom, this.quadroom, this.indate, this.outdate);
-		this.nowPage = 1;
+		this.star = star;
+		this.A = new Query(this.singleroom, this.doubleroom, this.quadroom, this.indate, this.outdate, this.star);
+		this.nowPage = 0;
 	}
 	public int SetTable(JPanel resultpanel){
 		ArrayList<QueryResult> resultList = this.A.searchRoom(nowPage);
@@ -69,7 +70,7 @@ public class SearchingResultPage{
 		resultframe.add(ResultnameLabel,BorderLayout.NORTH);
 		
 		int itemnumber = SetTable(resultpanel);
-        resultpanel.add(new JLabel(String.valueOf(nowPage)),BorderLayout.SOUTH);
+        resultpanel.add(new JLabel(String.valueOf(nowPage+1)),BorderLayout.SOUTH);
 		
         JButton backButton = new JButton("Return");
 		JButton nextButton = new JButton("Next Page");
@@ -97,7 +98,7 @@ public class SearchingResultPage{
 		previousButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				resultframe.dispose();
-				if (nowPage > 1) nowPage --;
+				if (nowPage > 0) nowPage --;
 				createresultGUI();
 			}
 		});
@@ -119,7 +120,7 @@ public class SearchingResultPage{
 	
     public static void main(String[] args) {
 
-		SearchingResultPage resultpage = new SearchingResultPage("2012-01-01","2012-01-03",1,2,3);
+		SearchingResultPage resultpage = new SearchingResultPage("2012-01-01","2012-01-03",1,2,3,3);
 		resultpage.createresultGUI();
 
     }
