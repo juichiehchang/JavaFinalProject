@@ -22,7 +22,7 @@ public class ConfirmMDPage{
 
 
         JFrame confirmMDframe = new JFrame("ModifyDateResult");
-		confirmMDframe.setSize(300,300);
+		confirmMDframe.setSize(500,300);
 		
 		confirmMDframe.add(new JLabel("Your booking has been changed from: " + in_date +" to " + out_date),BorderLayout.CENTER);
 		

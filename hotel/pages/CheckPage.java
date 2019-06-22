@@ -11,7 +11,7 @@ import java.awt.*;
 public class CheckPage{
 	public void createCheckGUI(){
 		JFrame.setDefaultLookAndFeelDecorated(true);
-		JFrame checkframe = new JFrame("Checklation");
+		JFrame checkframe = new JFrame("Check");
 		checkframe.setSize(400,200);
         checkframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel checkpanel = new JPanel();
